@@ -21,7 +21,7 @@ const Upload = () => {
         if (response.ok) {
           const data = await response.json();
           setIsUploading(false);
-          setImage(data.secure_url);
+          setImage(data.imageUrl);
           e.target.value = '';
         } else {
           const error = await response.json();
