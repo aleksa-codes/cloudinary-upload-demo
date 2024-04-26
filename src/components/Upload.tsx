@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-const Upload = () => {
+const Upload = ({ endpoint }: { endpoint: string }) => {
   const [image, setImage] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
@@ -14,7 +14,7 @@ const Upload = () => {
       formData.append('file', file);
 
       try {
-        const response = await fetch('/api/cloudinary', {
+        const response = await fetch(endpoint, {
           method: 'POST',
           body: formData // Send formData instead of JSON
         });
