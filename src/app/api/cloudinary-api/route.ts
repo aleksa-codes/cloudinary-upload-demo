@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const formData = new FormData();
 
   const parameters: { [key: string]: string } = {
-    folder: process.env.CLOUDINARY_UPLOADS_FOLDER || ''
+    folder: process.env.CLOUDINARY_UPLOADS_FOLDER || 'uploads',
   };
 
   Object.keys(parameters)
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     .join('&');
 
   const paramsHash = await createHashFromString(
-    `${paramsString}&timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`
+    `${paramsString}&timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`,
   );
 
   if (process.env.CLOUDINARY_API_KEY) {
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   try {
     const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, {
       method: 'POST',
-      body: formData
+      body: formData,
     }).then((r) => r.json());
 
     if (response.error) {
@@ -55,12 +55,12 @@ export async function POST(req: NextRequest) {
     console.log('response', response);
     return new Response(JSON.stringify({ success: true, imageUrl: imageUrl }), {
       headers: { 'Content-Type': 'application/json' },
-      status: 200
+      status: 200,
     });
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { 'Content-Type': 'application/json' },
-      status: 500
+      status: 500,
     });
   }
 }

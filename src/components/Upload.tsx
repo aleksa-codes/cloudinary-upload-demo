@@ -16,7 +16,7 @@ const Upload = ({ endpoint }: { endpoint: string }) => {
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
-          body: formData // Send formData instead of JSON
+          body: formData, // Send formData instead of JSON
         });
         if (response.ok) {
           const data = await response.json();

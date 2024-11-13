@@ -6,12 +6,12 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true
+  secure: true,
 });
 
 export const POST = async (req: NextRequest) => {
   const data = await req.formData();
-  const image = (await data.get('file')) as File;
+  const image = data.get('file') as File;
   const fileBuffer = await image.arrayBuffer();
 
   var mime = image.type;
@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest) => {
         var result = cloudinary.uploader
           .upload(fileUri, {
             invalidate: true,
-            folder: 'uploads'
+            folder: process.env.CLOUDINARY_UPLOADS_FOLDER || 'uploads',
           })
           .then((result) => {
             console.log(result);
